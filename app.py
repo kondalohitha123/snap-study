@@ -10,7 +10,7 @@ st.set_page_config(page_title="Snap & Study", page_icon="🎓")
 
 # 2. Get Secrets & Model Name
 GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-MODEL_NAME = "gemini-1.5-flash"  # Valid model string
+MODEL_NAME = "gemini-2.0-flash"
 
 # 3. Cached Gemini Client Connection
 @st.cache_resource
@@ -19,8 +19,8 @@ def get_gemini_client():
 
 gemini_client = get_gemini_client()
 
-# Auto-clear stale session state using the old model name
-if "chat" in st.session_state and getattr(st.session_state.chat, "_model", None) == "gemini-2.5-flash":
+# Auto-clear stale session state from older model configurations
+if "chat" in st.session_state and getattr(st.session_state.chat, "_model", None) != MODEL_NAME:
     del st.session_state["chat"]
     if "onboarded" in st.session_state:
         del st.session_state["onboarded"]
