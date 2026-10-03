@@ -99,14 +99,31 @@ else:
 
         contents.append(user_prompt)
 
-        with st.chat_message("assistant"):
+    with st.chat_message("assistant"):
             with st.spinner("Analyzing study material..."):
                 try:
+                    # Primary attempt
                     response = st.session_state.chat.send_message(contents)
                     st.markdown(response.text)
                     st.session_state.messages.append({"role": "assistant", "content": response.text})
                 except Exception as e:
-                    st.error(f"Error communicating with Gemini: {e}")
+                    if "503" in str(e) or "UNAVAILABLE" in str(e):
+                        st.warning("Primary model experiencing high demand. Retrying with backup model...")
+                        try:
+                            # Re-create chat on fallback model
+                            fallback_chat = gemini_client.chats.create(
+                                model="gemini-1.5-flash",
+                                config=types.GenerateContentConfig(
+                                    system_instruction=prompts.SYSTEM_PROMPT
+                                )
+                            )
+                            response = fallback_chat.send_message(contents)
+                            st.markdown(response.text)
+                            st.session_state.messages.append({"role": "assistant", "content": response.text})
+                        except Exception as fallback_error:
+                            st.error(f"Both primary and fallback models failed: {fallback_error}")
+                    else:
+                        st.error(f"Error communicating with Gemini: {e}")
 
     st.divider()
 
