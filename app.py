@@ -10,7 +10,7 @@ st.set_page_config(page_title="Snap & Study", page_icon="🎓")
 
 # 2. Get Secrets & Model Name
 GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-MODEL_NAME = "gemini-2.0-flash"
+MODEL_NAME = "gemini-3.8-flash"
 
 # 3. Cached Gemini Client Connection
 @st.cache_resource
