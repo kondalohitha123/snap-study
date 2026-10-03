@@ -1,0 +1,15 @@
+# Snap & Study 🎓
+
+Snap & Study is an AI-powered tutor built with Streamlit and Google Gemini. Students can upload photos of study notes, homework, or diagrams, receive clear explanations, and send a full summary cheat-sheet straight to their email.
+
+## Features
+- **Vision & Chat AI**: Analyzes images and text using Google's `gemini-2.5-flash` model.
+- **Onboarding**: Tailored experience storing user name and delivery address.
+- **Action Tool**: Generates a summary cheat-sheet and emails it using Python `smtplib`.
+
+## Local Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone <YOUR_GITHUB_REPOSITORY_URL>
+   cd snap_and_study
